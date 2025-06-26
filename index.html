@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PUMP-COR Project</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+  <style>
+    :root {
+      --bh-orange: #f7941d;
+      --bh-blue: #3db6c9;
+      --mw-orange: #f7a900;
+      --mw-blue: #01a8e1;
+      --mw-navy: #051c3e;
+      --soft-orange: #fce5cb;
+      --soft-blue: #d8f3f7;
+    }
+    body {
+      background-image: url('images/water-background.jpg');
+      background-size: cover;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-color: rgba(255, 255, 255, 0.95);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      color: #333;
+      
+    }
+    header {
+      background: var(--mw-navy);
+      color: #fff;
+      padding: 1rem;
+      text-align: center;
+    }
+    main {
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 2rem;
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1, h2, h3 {
+      color: var(--mw-navy);
+    }
+    section {
+      margin-bottom: 2rem;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: var(--mw-navy);
+      color: #fff;
+    }
+    a {
+      color: var(--mw-blue);
+    }
+    #map {
+      height: 400px;
+      width: 100%;
+      margin-bottom: 2rem;
+    }
+    .profile-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .profile {
+      flex: 1 1 calc(33% - 1rem);
+      background: var(--soft-blue);
+      padding: 1rem;
+      border-radius: 8px;
+      text-align: center;
+      color: #000;
+    }
+    .profile img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 0.5rem;
+    }
+    .case-study-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+    .case-study {
+      flex: 1 1 45%;
+      background: var(--soft-orange);
+      color: #000;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+    .case-study img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+    }
+.info.legend {
+  background: white;
+  padding: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  border-radius: 5px;
+}
+
+  </style>
+</head>
+<body>
+  <header style="background: var(--mw-navy); padding: 1rem; text-align: center;">
+    <div style="display: flex; align-items: center; justify-content: center; flex-wrap: wrap;">
+      <img src="images/pump-cor-logo.svg" alt="PUMP-COR Logo" style="height: 110px; margin-right: 1rem;" />
+      <h1 style="color: white; margin: 0; text-align: left;">
+        PUMP-COR:<br>
+        <span style="font-weight: normal;">Flood Resilience Planning for Great Lakes Coastal Cities</span>
+      </h1>
+    </div>
+    <nav style="margin-top: 1rem;">
+      <a href="#overview" style="margin-right: 1rem; color: white; text-decoration: underline;">Overview</a>
+      <a href="#case-studies" style="margin-right: 1rem; color: white; text-decoration: underline;">Case Studies</a>
+      <a href="#goals" style="margin-right: 1rem; color: white; text-decoration: underline;">Goals</a>
+      <a href="#impacts" style="margin-right: 1rem; color: white; text-decoration: underline;">Impacts</a>
+      <a href="#map" style="margin-right: 1rem; color: white; text-decoration: underline;">Map</a>
+      <a href="#team" style="margin-right: 1rem; color: white; text-decoration: underline;">Team</a>
+    </nav>
+  </header>
+  <main>
+    <section id="overview">
+      <h2>Overview</h2>
+      <p>The Integrating <strong style="color: var(--bh-blue);">P</strong>articipatory <strong style="color: var(--bh-blue);">U</strong>rban <strong style="color: var(--bh-blue);">M</strong>odeling and <strong style="color: var(--bh-blue);">P</strong>rojections for <strong style="color: var(--bh-blue);">C</strong>ommunity-Driven Fl<strong style="color: var(--bh-blue);">O</strong>oding <strong style="color: var(--bh-blue);">R</strong>esilience, or The PUMP-COR project, addresses coastal flooding risks in the Great Lakes region by integrating climate, hydrological, and participatory GIS models. These hazards—including flooding, stormwater overflow, and coastal erosion—are increasingly disrupting infrastructure, public health, and local economies. The project aims to produce practical information that supports community resilience and long-term economic development. It seeks to benefit all American neighborhoods, including those more vulnerable due to long-standing socioeconomic challenges.</p>
+    </section>
+
+    <section id="case-studies">
+      <h2>Case Study Areas</h2>
+      <div class="case-study-container">
+        <div class="case-study">
+          <img src="images/benton-harbor.jpg" alt="Benton Harbor">
+          <h3>Benton Harbor, MI</h3>
+          <p>Located where the Saint Joseph and Paw Paw Rivers meet near Lake Michigan, Benton Harbor is a historically industrial city that has experienced significant economic disinvestment and urban segregation. It is prone to flooding due to its low-lying topography and aging stormwater infrastructure. The city is marked by pronounced socioeconomic disparities between itself and its twin city, St. Joseph, just across the river.</p>
+        </div>
+        <div class="case-study">
+          <img src="images/milwaukee.jpg" alt="Milwaukee">
+          <h3>Milwaukee, WI</h3>
+          <p>Milwaukee, Wisconsin’s largest city, lies on the shores of Lake Michigan and is intersected by three rivers: the Milwaukee, Menomonee, and Kinnickinnic. The city is highly vulnerable to flooding caused by intense precipitation and aging combined sewer systems. Long-standing socioeconomic challenges have contributed to uneven exposure to environmental hazards and reduced access to infrastructure improvements across different neighborhoods.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="goals">
+      <h2>Goals</h2>
+      <ul>
+        <li>Integrate three modeling systems to build the PUMP-COR decision support tool (DST).</li>
+        <li>Collaborate with city staff and local organizations to define and measure resilience in ways that support diverse neighborhood needs and long-term development goals.</li>
+        <li>Build a regional network to scale actionable knowledge across Great Lakes cities.</li>
+      </ul>
+    </section>
+
+    <section id="impacts">
+      <h2>Expected Impacts</h2>
+      <ul>
+        <li>Increase the usability and actionability of flood risk data.</li>
+        <li>Empower communities with spatial tools to prioritize local solutions.</li>
+        <li>Advance academic understanding of science-use and knowledge co-production.</li>
+      </ul>
+    </section>
+
+    <section id="map">
+      <h2>Study Area Map</h2>
+      <div id="map"></div>
+      <script>
+        var map = L.map('map').setView([43.5, -86], 6);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          maxZoom: 18,
+        }).addTo(map);
+
+        var locations = [
+          { name: "Benton Harbor, MI", coords: [42.1167, -86.4542], color: 'red', image: 'images/benton-harbor.jpg' },
+          { name: "Milwaukee, WI", coords: [43.0389, -87.9065], color: 'red', image: 'images/milwaukee.jpg' },
+          { name: "University of Michigan", coords: [42.278, -83.7382], color: 'blue' },
+          { name: "University of Wisconsin-Madison", coords: [43.0731, -89.4012], color: 'blue' }
+        ];
+
+        locations.forEach(loc => {
+          const marker = L.circleMarker(loc.coords, {
+            radius: 8,
+            fillColor: loc.color,
+            color: '#000',
+            weight: 1,
+            opacity: 1,
+            fillOpacity: 0.8
+          }).addTo(map);
+          marker.bindPopup(`<strong>${loc.name}</strong>${loc.image ? `<br/><img src='${loc.image}' width='100%'/>` : ''}`);
+        });
+var legend = L.control({position: 'bottomright'});
+
+legend.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'info legend');
+    div.innerHTML += "<h4>Legend</h4>";
+    div.innerHTML += '<i style="background: red; border-radius: 50%; width: 12px; height: 12px; display: inline-block; margin-right: 5px;"></i> Case Study Cities<br>';
+    div.innerHTML += '<i style="background: blue; border-radius: 50%; width: 12px; height: 12px; display: inline-block; margin-right: 5px;"></i> University Partners<br>';
+    return div;
+};
+
+legend.addTo(map);
+      </script>
+    </section>
+
+    <section>
+      <h2>Partners and Funders</h2>
+      <p>This project is supported by NSF, <a href="https://glisa.umich.edu/" target="_blank">The GLISA Project</a>, Wisconcin Sea Grant, and researchers from multiple institutions including the University of Michigan and University of Wisconsin–Madison. It builds on prior work to co-produce climate adaptation knowledge for community-driven resilience planning.</p>
+    </section>
+
+    <section>
+      <h2>Project Details</h2>
+      <p>The PUMP-COR project integrates climate projections, hydrologic models, and participatory mapping to support decision-making on flood risk and resilience in Great Lakes coastal cities. It builds on established modeling infrastructure to evaluate the costs and benefits of different mitigation strategies. The project team is developing a publicly accessible tool to support planning across a range of users—from city staff to residents and regional stakeholders.</p>
+      <p>Below is a conceptual model that illustrates how data and community input flow into the PUMP-COR tool design and application.</p>
+      <img src="images/conceptual-model.jpg" alt="PUMP-COR Conceptual Model" style="width:100%; max-width:800px; border-radius:8px; margin-top:1rem;"/>
+      <p>For more information, visit the NSF award page: <a href="https://www.nsf.gov/awardsearch/showAward?AWD_ID=2435004" target="_blank">NSF Award #2435004</a></p>
+    </section>
+
+    <section>
+      <h2>Contact</h2>
+      <p>Lead PI: Derek Van Berkel<br/>
+      Email: <a href="mailto:dbvanber@umich.edu">dbvanber@umich.edu</a></p>
+    </section>
+
+    <section id="team">
+      <h2>Project Team</h2>
+      <div class="profile-container">
+        <div class="profile">
+          <img src="images/derek.jpg" alt="Derek Van Berkel">
+          <h3>Derek Van Berkel</h3>
+          <p>Assistant Professor at the University of Michigan’s School for Environment and Sustainability. Derek leads the PUMP-COR project, combining geospatial data science, participatory GIS, and remote sensing to advance climate adaptation and resilience planning in the Great Lakes region.</p>
+        </div>
+
+        <div class="profile">
+          <img src="images/jeremy.jpg" alt="Jeremy Bricker">
+          <h3>Jeremy Bricker</h3>
+          <p>Associate Professor of Civil and Environmental Engineering at the University of Michigan. Jeremy’s expertise lies in hydrodynamic modeling, infrastructure resilience, and risk assessment for coastal flooding and storm surge events.</p>
+        </div>
+
+        <div class="profile">
+          <img src="images/notaro.jpg" alt="Michael Notaro">
+          <h3>Michael Notaro</h3>
+          <p>Senior Scientist and Director of the Nelson Institute Center for Climatic Research at the University of Wisconsin–Madison. Michael specializes in regional climate modeling, lake-atmosphere interactions, and the development of downscaled climate projections for the Great Lakes.</p>
+        </div>
+
+        <div class="profile">
+          <img src="images/adam.jpg" alt="Adam Bechle">
+          <h3>Adam Bechle</h3>
+          <p>Coastal Engineering Specialist with Wisconsin Sea Grant. Adam supports communities through technical assistance and outreach on flooding, coastal resilience, and shoreline planning.</p>
+        </div>
+
+        <div class="profile">
+          <img src="images/maria.jpg" alt="Maria Carmen Lemos">
+          <h3>Maria Carmen Lemos</h3>
+          <p>Professor at the University of Michigan’s School for Environment and Sustainability. Maria's research focuses on the co-production of knowledge and the role of institutions in building adaptive capacity to climate change.</p>
+        </div>
+
+        <div class="profile">
+          <img src="images/yafang.jpg" alt="Yafang Zhong">
+          <h3>Yafang Zhong</h3>
+          <p>Researcher at UW-Madison. Her work is focused on generating dynamically downscaled climate projections, not the tasks listed in her square.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 PUMP-COR Project | Hosted on GitHub Pages</p>
+  </footer>
+</body>
+</html>
